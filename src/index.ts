@@ -13,19 +13,22 @@ const getCircularReplacer = () => {
   };
 };
 
+/**
+ * 一个更加安全的 stringify，可以解决循环依赖的问题
+ * @param value
+ */
+const stringify = (value: any) => JSON.stringify(value, getCircularReplacer());
+
 const jsonCompareEquals = (value: any, nextValue: any) => {
   try {
-    return (
-      JSON.stringify(value, getCircularReplacer()) ===
-      JSON.stringify(nextValue, getCircularReplacer())
-    );
+    return stringify(value) === stringify(nextValue);
   } catch (error) {
     // do something
   }
   return false;
 };
 
-function useDeepCompareMemoize(value: any) {
+function useJsonCompareMemoize(value: any) {
   const ref = useRef();
   // it can be done by using useMemo as well
   // but useRef is rather cleaner and easier
@@ -36,6 +39,8 @@ function useDeepCompareMemoize(value: any) {
   return ref.current;
 }
 
-export default function useDeepCompareEffect(effect: React.EffectCallback, dependencies?: Object) {
-  useEffect(effect, useDeepCompareMemoize(dependencies));
+export { stringify };
+
+export default function useDeepJSONEffect(effect: React.EffectCallback, dependencies?: Object) {
+  useEffect(effect, useJsonCompareMemoize(dependencies));
 }

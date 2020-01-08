@@ -22,7 +22,6 @@
     "react": "16.x"
   },
   "devDependencies": {
-    "@types/react-responsive": "^8.0.2",
     "father": "^2.16.0",
     "np": "^5.2.1",
     "typescript": "^3.3.3"

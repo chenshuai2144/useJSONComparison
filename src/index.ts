@@ -29,14 +29,14 @@ const jsonCompareEquals = (value: any, nextValue: any) => {
 };
 
 function useJsonCompareMemoize(value: any) {
-  const ref = useRef();
+  const ref = useRef('');
   // it can be done by using useMemo as well
   // but useRef is rather cleaner and easier
   if (!jsonCompareEquals(value, ref.current)) {
-    ref.current = value;
+    ref.current = JSON.stringify(value, getCircularReplacer());
   }
 
-  return ref.current;
+  return [ref.current];
 }
 
 export { stringify };

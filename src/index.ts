@@ -36,11 +36,11 @@ function useJsonCompareMemoize(value: any) {
     ref.current = JSON.stringify(value, getCircularReplacer());
   }
 
-  return [ref.current];
+  return ref.current;
 }
 
 export { stringify };
 
 export default function useDeepJSONEffect(effect: React.EffectCallback, dependencies?: Object) {
-  useEffect(effect, useJsonCompareMemoize(dependencies));
+  useEffect(effect, [useJsonCompareMemoize(dependencies)]);
 }
